@@ -15,6 +15,7 @@ use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
 use RyanChandler\FilamentNavigation\FilamentNavigation;
@@ -127,15 +128,18 @@ class NavigationResource extends Resource
                     ->label(__('filament-navigation::filament-navigation.attributes.name'))
                     ->searchable(),
                 TextColumn::make('handle')
+                    ->copyable()
                     ->label(__('filament-navigation::filament-navigation.attributes.handle'))
                     ->searchable(),
                 TextColumn::make('created_at')
                     ->label(__('filament-navigation::filament-navigation.attributes.created_at'))
-                    ->dateTime()
+                    ->formatStateUsing(fn(Carbon $value) => $value->format('Y-m-d H:i'))
+                    ->toggleable(isToggledHiddenByDefault: true)
                     ->sortable(),
                 TextColumn::make('updated_at')
                     ->label(__('filament-navigation::filament-navigation.attributes.updated_at'))
-                    ->dateTime()
+                    ->formatStateUsing(fn(Carbon $value) => $value->format('Y-m-d H:i'))
+                    ->toggleable(isToggledHiddenByDefault: true)
                     ->sortable(),
             ])
             ->actions([
