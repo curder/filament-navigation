@@ -67,6 +67,7 @@ class NavigationResource extends Resource
                 Group::make([
                     Section::make('')->schema([
                         TextInput::make('handle')
+                            ->disabled(fn ($operation) => $operation === 'edit' && !self::canEditHandle())
                             ->label(__('filament-navigation::filament-navigation.attributes.handle'))
                             ->required()
                             ->unique(column: 'handle', ignoreRecord: true),
@@ -163,5 +164,10 @@ class NavigationResource extends Resource
     public static function getModel(): string
     {
         return FilamentNavigation::get()->getModel();
+    }
+
+    public static function canEditHandle(): bool
+    {
+        return FilamentNavigation::get()->getCanEditHandle();
     }
 }

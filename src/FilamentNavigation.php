@@ -19,7 +19,9 @@ class FilamentNavigation implements Plugin
 
     protected array $itemTypes = [];
 
-    protected array | Closure $extraFields = [];
+    protected array $extraFields = [];
+
+    protected bool | Closure $canEditHandle = true;
 
     public function getId(): string
     {
@@ -118,5 +120,17 @@ class FilamentNavigation implements Plugin
             ],
             $this->itemTypes
         );
+    }
+
+    public function canEditHandle(bool $condition): self
+    {
+        $this->canEditHandle = $condition;
+
+        return $this;
+    }
+
+    public function getCanEditHandle(): bool
+    {
+        return $this->canEditHandle;
     }
 }
