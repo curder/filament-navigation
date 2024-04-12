@@ -143,10 +143,8 @@ class NavigationResource extends Resource
                     ->sortable(),
             ])
             ->actions([
-                EditAction::make()
-                    ->icon(null),
-                DeleteAction::make()
-                    ->icon(null),
+                EditAction::make(),
+                DeleteAction::make(),
             ])
             ->filters([
 
