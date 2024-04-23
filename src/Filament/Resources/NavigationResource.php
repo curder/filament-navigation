@@ -44,16 +44,9 @@ class NavigationResource extends Resource
             ->schema([
                 Section::make('')->schema([
                     TextInput::make('name')
+                        ->disabled(fn ($operation) => $operation === 'edit' && !self::canEditName())
                         ->label(__('filament-navigation::filament-navigation.attributes.name'))
-                        ->reactive()
                         ->debounce()
-                        ->afterStateUpdated(function (?string $state, Set $set) {
-                            if (! $state) {
-                                return;
-                            }
-
-                            $set('handle', Str::slug($state));
-                        })
                         ->required(),
                     ViewField::make('items')
                         ->label(__('filament-navigation::filament-navigation.attributes.items'))
@@ -164,6 +157,11 @@ class NavigationResource extends Resource
     public static function getModel(): string
     {
         return FilamentNavigation::get()->getModel();
+    }
+
+    public static function canEditName(): bool
+    {
+        return FilamentNavigation::get()->getCanEditName();
     }
 
     public static function canEditHandle(): bool

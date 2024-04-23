@@ -21,7 +21,9 @@ class FilamentNavigation implements Plugin
 
     protected array $extraFields = [];
 
-    protected bool|Closure $canEditHandle = true;
+    protected bool|Closure $canEditName = false;
+
+    protected bool|Closure $canEditHandle = false;
 
     public function getId(): string
     {
@@ -120,6 +122,22 @@ class FilamentNavigation implements Plugin
             ],
             $this->itemTypes
         );
+    }
+
+    public function canEditName(bool|Closure $condition): self
+    {
+        $this->canEditName = $condition;
+
+        return $this;
+    }
+
+    public function getCanEditName(): bool
+    {
+        if($this->canEditName instanceof Closure) {
+            return app()->call($this->canEditName);
+        }
+
+        return $this->canEditName;
     }
 
     public function canEditHandle(bool|Closure $condition): self
